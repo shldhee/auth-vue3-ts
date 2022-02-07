@@ -2,17 +2,19 @@
   <div class="signin">
     <h1>signin</h1>
     <form class="signin__form" @submit="handleSubmit">
-      <label for="id">
+      <label for="email">
         <input
+          autocomplete="username"
           type="text"
-          v-model="id"
-          name="id"
-          placeholder="ID를 입력해주세요"
+          v-model="email"
+          name="email"
+          placeholder="EMAIL를 입력해주세요"
         />
       </label>
       <label for="password">
         <input
-          type="text"
+          autocomplete="current-password"
+          type="password"
           v-model="password"
           name="password"
           placeholder="PASSWORD를 입력해주세요"
@@ -25,13 +27,17 @@
 </template>
 
 <script setup lang="ts">
+import UserService from '@/services/UserService'
 import { ref } from 'vue'
-const id = ref<string | null>(null)
+const email = ref<string | null>(null)
 const password = ref<string | null>(null)
 
 function handleSubmit(e: Event) {
   e.preventDefault()
-  console.log(id.value, password.value)
+  UserService.login({
+    email: email.value!,
+    password: password.value!
+  })
 }
 </script>
 
