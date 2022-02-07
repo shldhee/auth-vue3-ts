@@ -22,22 +22,35 @@
       </label>
       <button>로그인</button>
       <router-link to="/reset-password">비밀번호 재설정</router-link>
+      {{ auth.token }}
+      <p>{{ errorMessage }}</p>
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
-import UserService from '@/services/UserService'
 import { ref } from 'vue'
+import { useAuth } from '@/store/auth'
+import router from '@/router'
 const email = ref<string | null>(null)
 const password = ref<string | null>(null)
+const errorMessage = ref<string | null>(null)
+const auth = useAuth()
 
-function handleSubmit(e: Event) {
+async function handleSubmit(e: Event) {
   e.preventDefault()
-  UserService.login({
+  const result = await auth.login({
     email: email.value!,
     password: password.value!
   })
+
+  if (result.status === 200) {
+    // 로그인 성공
+    router.push('/user')
+  } else {
+    // 로그인 실패
+    errorMessage.value = result.message
+  }
 }
 </script>
 
