@@ -27,7 +27,8 @@ module.exports = {
         semi: false,
         trailingComma: 'none'
       }
-    ]
+    ],
+    '@typescript-eslint/no-non-null-assertion': 'off'
   },
 
   overrides: [
