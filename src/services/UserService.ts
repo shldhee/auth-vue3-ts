@@ -1,4 +1,4 @@
-import { LoginRequestType } from '@/types'
+import { LoginRequestType, UserInfoType } from '@/types'
 import axios from 'axios'
 
 const BASE_URL = 'https://ably-frontend-assignment-server.vercel.app/api'
@@ -10,5 +10,14 @@ export default class UserService {
     })
 
     return response.data.accessToken
+  }
+  public static async getUserInfo(token: string): Promise<UserInfoType> {
+    const response = await axios.get(`${BASE_URL}/user`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    return response.data
   }
 }
