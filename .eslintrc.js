@@ -1,8 +1,8 @@
 module.exports = {
   root: true,
-
   env: {
-    node: true
+    node: true,
+    'vue/setup-compiler-macros': true
   },
 
   extends: [
@@ -28,7 +28,8 @@ module.exports = {
         trailingComma: 'none'
       }
     ],
-    '@typescript-eslint/no-non-null-assertion': 'off'
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    'vue/script-setup-uses-vars': 'error'
   },
 
   overrides: [

@@ -1,11 +1,10 @@
 <template>
-  <div class="home">Home</div>
+  <div>
+    <h1>Home</h1>
+    <p>This is the Home component.</p>
+  </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts"></script>
 
-export default defineComponent({
-  name: 'Home'
-})
-</script>
+<style scoped></style>
