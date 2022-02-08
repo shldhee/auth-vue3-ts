@@ -12,22 +12,16 @@ export const useAuth = defineStore('auth', {
   },
   actions: {
     async login({ email, password }: LoginRequestType) {
-      const response = await UserService.login({
-        email,
-        password
-      })
-
-      if (response.status === 200) {
-        this.token = response.data.accessToken
-        return {
-          status: response.status,
-          message: 'success'
-        }
-      }
-
-      return {
-        status: response.status,
-        message: response.data.error.message
+      try {
+        const response = await UserService.login({
+          email,
+          password
+        })
+        this.token = response
+        return response
+      } catch (e: any) {
+        console.error(e.response)
+        return e.response
       }
     }
     // login
