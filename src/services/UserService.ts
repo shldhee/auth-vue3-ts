@@ -35,4 +35,16 @@ export default class UserService {
 
     return response.data
   }
+  public static async issueAuthCode(email: string): Promise<AxiosResponse> {
+    const response = await axios.get(
+      `${BASE_URL}/reset-password?email=${email}`,
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+
+    return response
+  }
 }
