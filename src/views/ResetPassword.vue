@@ -10,6 +10,7 @@
     </div>
     <div v-else-if="status === 'issued'">
       <p>인증 코드 검증 페이지</p>
+      <Counter :remainTime="remainTime" />
       <p>{{ remainTime }}</p>
       <p>{{ issueToken }}</p>
     </div>
@@ -22,11 +23,12 @@ import BasicButton from '@/components/BasicButton.vue'
 import { ref } from 'vue'
 import { useAuth } from '@/store/auth'
 import { storeToRefs } from 'pinia'
+import Counter from '@/components/Counter.vue'
+type Status = 'init' | 'issued' | 'verified'
 const auth = useAuth()
 const { remainTime, issueToken } = storeToRefs(auth)
 const email = ref('')
 const errorMessage = ref('')
-type Status = 'init' | 'issued' | 'verified'
 const status = ref<Status>('init')
 
 async function handleRequestAuthCode() {
