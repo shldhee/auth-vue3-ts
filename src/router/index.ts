@@ -1,3 +1,4 @@
+import { useAuth } from '@/store/auth'
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/Home.vue'
 
@@ -24,7 +25,15 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/user',
     name: 'User',
-    component: () => import(/* webpackChunkName: "user" */ '../views/User.vue')
+    component: () => import(/* webpackChunkName: "user" */ '../views/User.vue'),
+    beforeEnter: async (to, from, next) => {
+      const auth = useAuth()
+      const result = await auth.fetchUserInfo()
+      if (typeof result !== 'boolean') {
+        next({ name: 'Signin' })
+      }
+      next()
+    }
   }
 ]
 

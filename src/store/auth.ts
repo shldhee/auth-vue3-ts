@@ -6,18 +6,21 @@ import TokenService from '@/services/TokenService'
 export type AuthState = {
   token: string | null
   userInfo: UserInfoType
+  loading: boolean
 }
 
 export const useAuth = defineStore('auth', {
   state: (): AuthState => {
     return {
       token: TokenService.get(),
+      // token: null,
       userInfo: {
         name: '',
         email: '',
         profileImage: '',
         lastConnectedAt: ''
-      }
+      },
+      loading: false
     }
   },
   actions: {
@@ -40,11 +43,9 @@ export const useAuth = defineStore('auth', {
     // set localstorage
     async fetchUserInfo() {
       try {
-        console.log('this.token : ', this.token)
         const repsonse = await UserService.getUserInfo(this.token!)
         const { name, email, profileImage, lastConnectedAt } = repsonse
         this.userInfo = { name, email, profileImage, lastConnectedAt }
-        console.log('response', repsonse)
         return true
       } catch (e: any) {
         console.error(e.response)
