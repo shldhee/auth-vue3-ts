@@ -18,7 +18,7 @@ export const useAuth = defineStore('auth', {
         name: '',
         email: '',
         profileImage: '',
-        lastConnectedAt: ''
+        lastConnectedAt: null
       },
       loading: false
     }
