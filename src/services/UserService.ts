@@ -3,6 +3,12 @@ import axios, { AxiosResponse } from 'axios'
 
 const BASE_URL = 'https://ably-frontend-assignment-server.vercel.app/api'
 
+interface VerifiedAuthCode {
+  email: string
+  authCode: string
+  issueToken: string
+}
+
 export default class UserService {
   public static async login(requestData: LoginRequestType): Promise<string> {
     const response = await axios.post(`${BASE_URL}/login`, requestData, {
@@ -38,6 +44,27 @@ export default class UserService {
   public static async issueAuthCode(email: string): Promise<AxiosResponse> {
     const response = await axios.get(
       `${BASE_URL}/reset-password?email=${email}`,
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+
+    return response
+  }
+  public static async confirmAuthCode({
+    email,
+    authCode,
+    issueToken
+  }: VerifiedAuthCode): Promise<AxiosResponse> {
+    const response = await axios.post(
+      `${BASE_URL}/reset-password?email`,
+      {
+        email,
+        authCode,
+        issueToken
+      },
       {
         headers: {
           'Content-Type': 'application/json'

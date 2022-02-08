@@ -4,15 +4,29 @@
     <div v-if="status === 'init'">
       <form>
         <BasicInput v-model="email" name="email" />
-        <BasicButton @click="handleRequestAuthCode">Next</BasicButton>
+        <BasicButton @click="handleRequestAuthCode">다음</BasicButton>
         <p>{{ errorMessage }}</p>
       </form>
     </div>
     <div v-else-if="status === 'issued'">
-      <p>인증 코드 검증 페이지</p>
-      <Counter :remainTime="remainTime" />
-      <p>{{ remainTime }}</p>
-      <p>{{ issueToken }}</p>
+      <form>
+        <p>인증 코드 검증 페이지</p>
+        <Counter :remainTime="remainTime" />
+        <BasicInput v-model="authCode" name="authCode" />
+        <BasicButton @click="handleVerifyAuthCode">다음</BasicButton>
+        <p>{{ errorMessage }}</p>
+      </form>
+    </div>
+    <div v-else-if="status === 'verified'">
+      <form>
+        <p>비밀번호 변경 페이지</p>
+        {{ email }}
+        {{ confirmToken }}
+        <BasicInput v-model="newPassword" name="newPassword" />
+        <BasicInput v-model="confirmNewPassword" name="confirmNewPassword" />
+        <BasicButton @click="handleChangePassword">변경하기</BasicButton>
+        <p>{{ errorMessage }}</p>
+      </form>
     </div>
   </div>
 </template>
@@ -26,15 +40,38 @@ import { storeToRefs } from 'pinia'
 import Counter from '@/components/Counter.vue'
 type Status = 'init' | 'issued' | 'verified'
 const auth = useAuth()
-const { remainTime, issueToken } = storeToRefs(auth)
+const { remainTime, confirmToken } = storeToRefs(auth)
 const email = ref('')
+const authCode = ref('')
 const errorMessage = ref('')
+const newPassword = ref('')
+const confirmNewPassword = ref('')
 const status = ref<Status>('init')
 
 async function handleRequestAuthCode() {
   const result = await auth.requestAuthCode(email.value)
   if (typeof result === 'object') {
     status.value = 'issued'
+  } else {
+    errorMessage.value = result
+  }
+}
+
+async function handleVerifyAuthCode() {
+  const result = await auth.verifyAuthCode(authCode.value)
+  console.log('result : ', result)
+  if (result === 'success') {
+    status.value = 'verified'
+  } else {
+    errorMessage.value = result
+  }
+}
+
+async function handleChangePassword() {
+  const result = await auth.verifyAuthCode(authCode.value)
+  console.log('result : ', result)
+  if (result === 'success') {
+    status.value = 'verified'
   } else {
     errorMessage.value = result
   }
