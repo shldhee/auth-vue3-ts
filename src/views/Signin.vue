@@ -1,7 +1,7 @@
 <template>
   <div class="signin">
     <h1>signin</h1>
-    <form class="signin__form" @submit="handleSubmit">
+    <form class="signin__form">
       <BasicInput v-model="email" name="email" />
       <BasicInput v-model="password" name="password" type="password" />
       <BasicButton type="submit" @click="handleSubmit">로그인</BasicButton>
@@ -19,9 +19,9 @@ import { useAuth } from '@/store/auth'
 import router from '@/router'
 import BasicButton from '@/components/BasicButton.vue'
 import BasicInput from '@/components/BasicInput.vue'
-const email = ref<string | null>(null)
-const password = ref<string | null>(null)
-const errorMessage = ref<string | null>(null)
+const email = ref('')
+const password = ref('')
+const errorMessage = ref('')
 const auth = useAuth()
 
 async function handleSubmit(e: Event) {
