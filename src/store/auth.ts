@@ -70,6 +70,12 @@ export const useAuth = defineStore('auth', {
       try {
         const response = await UserService.logout(this.token!)
         this.token = null
+        this.userInfo = {
+          name: '',
+          email: '',
+          profileImage: '',
+          lastConnectedAt: null
+        }
         TokenService.remove()
         console.log('logout response', response)
         return true
@@ -98,6 +104,7 @@ export const useAuth = defineStore('auth', {
           issueToken: this.issueToken
         })
         this.confirmToken = response.data.confirmToken
+        this.remainTime = 0
         return 'success'
       } catch (e: any) {
         console.error(e.response)
@@ -115,10 +122,15 @@ export const useAuth = defineStore('auth', {
           newPassword,
           newPasswordConfirm
         })
+
         return 'success'
       } catch (e: any) {
         console.error(e.response)
         return e.response.data.error.message
+      } finally {
+        this.resetEmail = ''
+        this.issueToken = ''
+        this.confirmToken = ''
       }
     }
   }
