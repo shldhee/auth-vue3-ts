@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import UserService from '@/services/UserService'
 import { LoginRequestType, UserInfoType } from '@/types'
 import TokenService from '@/services/TokenService'
+import { AxiosResponse } from 'axios'
 
 export type AuthState = {
   token: string | null
@@ -46,6 +47,18 @@ export const useAuth = defineStore('auth', {
         const repsonse = await UserService.getUserInfo(this.token!)
         const { name, email, profileImage, lastConnectedAt } = repsonse
         this.userInfo = { name, email, profileImage, lastConnectedAt }
+        return true
+      } catch (e: any) {
+        console.error(e.response)
+        return e.response
+      }
+    },
+    async logout(): Promise<AxiosResponse | boolean> {
+      try {
+        const response = await UserService.logout(this.token!)
+        this.token = null
+        TokenService.remove()
+        console.log('logout response', response)
         return true
       } catch (e: any) {
         console.error(e.response)
