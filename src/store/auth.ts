@@ -52,9 +52,6 @@ export const useAuth = defineStore('auth', {
         return e.response
       }
     },
-    // login
-    // set token
-    // set localstorage
     async fetchUserInfo() {
       try {
         const repsonse = await UserService.getUserInfo(this.token!)
@@ -68,7 +65,7 @@ export const useAuth = defineStore('auth', {
     },
     async logout(): Promise<AxiosResponse | boolean> {
       try {
-        const response = await UserService.logout(this.token!)
+        await UserService.logout(this.token!)
         this.token = null
         this.userInfo = {
           name: '',
@@ -77,7 +74,6 @@ export const useAuth = defineStore('auth', {
           lastConnectedAt: null
         }
         TokenService.remove()
-        console.log('logout response', response)
         return true
       } catch (e: any) {
         console.error(e.response)

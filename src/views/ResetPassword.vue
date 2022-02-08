@@ -82,7 +82,6 @@ async function handleRequestAuthCode(e: Event) {
 async function handleVerifyAuthCode(e: Event) {
   e.preventDefault()
   const result = await auth.verifyAuthCode(authCode.value)
-  console.log('result : ', result)
   if (result === 'success') {
     status.value = 'verified'
   } else {
@@ -96,7 +95,6 @@ async function handleChangePassword(e: Event) {
     newPassword: newPassword.value,
     newPasswordConfirm: newPasswordConfirm.value
   })
-  console.log('result : ', result)
   if (result === 'success') {
     alert('비밀번호가 변경되었습니다. 다시 로그인해주세요.')
     router.push('/signin')
