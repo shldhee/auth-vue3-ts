@@ -2,25 +2,9 @@
   <div class="signin">
     <h1>signin</h1>
     <form class="signin__form" @submit="handleSubmit">
-      <label for="email">
-        <input
-          autocomplete="username"
-          type="text"
-          v-model="email"
-          name="email"
-          placeholder="EMAIL를 입력해주세요"
-        />
-      </label>
-      <label for="password">
-        <input
-          autocomplete="current-password"
-          type="password"
-          v-model="password"
-          name="password"
-          placeholder="PASSWORD를 입력해주세요"
-        />
-      </label>
-      <button>로그인</button>
+      <BasicInput v-model="email" name="email" />
+      <BasicInput v-model="password" name="password" type="password" />
+      <BasicButton type="submit" @click="handleSubmit">로그인</BasicButton>
       <router-link to="/reset-password">비밀번호 재설정</router-link>
       {{ auth.token }}
       <p>{{ errorMessage }}</p>
@@ -32,6 +16,8 @@
 import { ref } from 'vue'
 import { useAuth } from '@/store/auth'
 import router from '@/router'
+import BasicButton from '@/components/BasicButton.vue'
+import BasicInput from '@/components/BasicInput.vue'
 const email = ref<string | null>(null)
 const password = ref<string | null>(null)
 const errorMessage = ref<string | null>(null)
