@@ -1,6 +1,10 @@
 <template>
   <h1>User</h1>
-  <UserCard v-bind="userInfo" />
+  <UserCard
+    :name="userInfo.name"
+    :email="userInfo.email"
+    :profile-image="userInfo.profileImage"
+  />
   <BasicButton>로그아웃</BasicButton>
 </template>
 
