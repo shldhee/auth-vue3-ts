@@ -23,7 +23,7 @@
         {{ email }}
         {{ confirmToken }}
         <BasicInput v-model="newPassword" name="newPassword" />
-        <BasicInput v-model="confirmNewPassword" name="confirmNewPassword" />
+        <BasicInput v-model="newPasswordConfirm" name="newPasswordConfirm" />
         <BasicButton @click="handleChangePassword">변경하기</BasicButton>
         <p>{{ errorMessage }}</p>
       </form>
@@ -38,6 +38,7 @@ import { ref } from 'vue'
 import { useAuth } from '@/store/auth'
 import { storeToRefs } from 'pinia'
 import Counter from '@/components/Counter.vue'
+import router from '@/router'
 type Status = 'init' | 'issued' | 'verified'
 const auth = useAuth()
 const { remainTime, confirmToken } = storeToRefs(auth)
@@ -45,7 +46,7 @@ const email = ref('')
 const authCode = ref('')
 const errorMessage = ref('')
 const newPassword = ref('')
-const confirmNewPassword = ref('')
+const newPasswordConfirm = ref('')
 const status = ref<Status>('init')
 
 async function handleRequestAuthCode() {
@@ -68,10 +69,14 @@ async function handleVerifyAuthCode() {
 }
 
 async function handleChangePassword() {
-  const result = await auth.verifyAuthCode(authCode.value)
+  const result = await auth.requestChangePassword({
+    newPassword: newPassword.value,
+    newPasswordConfirm: newPasswordConfirm.value
+  })
   console.log('result : ', result)
   if (result === 'success') {
-    status.value = 'verified'
+    alert('비밀번호가 변경되었습니다. 다시 로그인해주세요.')
+    router.push('/signin')
   } else {
     errorMessage.value = result
   }

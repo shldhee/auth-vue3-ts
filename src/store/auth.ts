@@ -4,7 +4,7 @@ import { IssueAuthCode, LoginRequestType, UserInfoType } from '@/types'
 import TokenService from '@/services/TokenService'
 import { AxiosResponse } from 'axios'
 
-export type AuthState = {
+interface AuthState {
   token: string | null
   userInfo: UserInfoType
   resetEmail: string
@@ -12,6 +12,11 @@ export type AuthState = {
   issueToken: string
   confirmToken: string
   loading: boolean
+}
+
+interface NewPassword {
+  newPassword: string
+  newPasswordConfirm: string
 }
 
 export const useAuth = defineStore('auth', {
@@ -93,6 +98,23 @@ export const useAuth = defineStore('auth', {
           issueToken: this.issueToken
         })
         this.confirmToken = response.data.confirmToken
+        return 'success'
+      } catch (e: any) {
+        console.error(e.response)
+        return e.response.data.error.message
+      }
+    },
+    async requestChangePassword({
+      newPassword,
+      newPasswordConfirm
+    }: NewPassword): Promise<string> {
+      try {
+        await UserService.changePassword({
+          email: this.resetEmail,
+          confirmToken: this.confirmToken,
+          newPassword,
+          newPasswordConfirm
+        })
         return 'success'
       } catch (e: any) {
         console.error(e.response)
