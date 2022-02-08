@@ -7,8 +7,10 @@ import { AxiosResponse } from 'axios'
 export type AuthState = {
   token: string | null
   userInfo: UserInfoType
+  resetEmail: string
   remainTime: number
   issueToken: string
+  confirmToken: string
   loading: boolean
 }
 
@@ -23,8 +25,10 @@ export const useAuth = defineStore('auth', {
         profileImage: '',
         lastConnectedAt: null
       },
+      resetEmail: '',
       remainTime: 0,
       issueToken: '',
+      confirmToken: '',
       loading: false
     }
   },
@@ -72,10 +76,24 @@ export const useAuth = defineStore('auth', {
     async requestAuthCode(email: string): Promise<IssueAuthCode | string> {
       try {
         const response = await UserService.issueAuthCode(email)
-        console.log(response)
+        this.resetEmail = email
         this.remainTime = response.data.remainMillisecond
         this.issueToken = response.data.issueToken
         return response.data
+      } catch (e: any) {
+        console.error(e.response)
+        return e.response.data.error.message
+      }
+    },
+    async verifyAuthCode(authCode: string): Promise<string> {
+      try {
+        const response = await UserService.confirmAuthCode({
+          email: this.resetEmail,
+          authCode,
+          issueToken: this.issueToken
+        })
+        this.confirmToken = response.data.confirmToken
+        return 'success'
       } catch (e: any) {
         console.error(e.response)
         return e.response.data.error.message
