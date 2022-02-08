@@ -1,17 +1,9 @@
 <template>
   <div>
-    <h1>ResetPassword</h1>
+    <h1>reset-password page</h1>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts"></script>
 
-export default defineComponent({
-  setup() {
-    return {}
-  }
-})
-</script>
-
-<style scoped lang="scss"></style>
+<style scoped></style>

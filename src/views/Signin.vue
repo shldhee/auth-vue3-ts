@@ -5,8 +5,9 @@
       <BasicInput v-model="email" name="email" />
       <BasicInput v-model="password" name="password" type="password" />
       <BasicButton type="submit" @click="handleSubmit">로그인</BasicButton>
-      <router-link to="/reset-password">비밀번호 재설정</router-link>
-      {{ auth.token }}
+      <router-link to="/reset-password">
+        <BasicButton>비밀번호 재설정</BasicButton>
+      </router-link>
       <p>{{ errorMessage }}</p>
     </form>
   </div>
