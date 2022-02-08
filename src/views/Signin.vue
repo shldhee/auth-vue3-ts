@@ -30,12 +30,12 @@ async function handleSubmit(e: Event) {
     password: password.value!
   })
 
-  if (result.status === 200) {
+  if (typeof result === 'string') {
     // 로그인 성공
     router.push('/user')
   } else {
     // 로그인 실패
-    errorMessage.value = result.message
+    errorMessage.value = result.data.error.message
   }
 }
 </script>

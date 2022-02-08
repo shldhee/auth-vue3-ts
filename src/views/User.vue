@@ -1,17 +1,14 @@
 <template>
   <div>
     <h1>User</h1>
+    {{ auth.token }}
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { useAuth } from '@/store/auth'
 
-export default defineComponent({
-  setup() {
-    return {}
-  }
-})
+const auth = useAuth()
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped></style>
