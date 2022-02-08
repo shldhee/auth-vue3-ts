@@ -6,5 +6,5 @@ export interface UserInfoType {
   name: string
   email: string
   profileImage: string
-  lastConnectedAt: string
+  lastConnectedAt: Date | null
 }
