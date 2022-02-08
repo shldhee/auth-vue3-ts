@@ -8,3 +8,8 @@ export interface UserInfoType {
   profileImage: string
   lastConnectedAt: Date | null
 }
+
+export interface IssueAuthCode {
+  issueToken: string
+  remainMillisecond: number
+}

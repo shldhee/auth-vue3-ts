@@ -1,12 +1,14 @@
 import { defineStore } from 'pinia'
 import UserService from '@/services/UserService'
-import { LoginRequestType, UserInfoType } from '@/types'
+import { IssueAuthCode, LoginRequestType, UserInfoType } from '@/types'
 import TokenService from '@/services/TokenService'
 import { AxiosResponse } from 'axios'
 
 export type AuthState = {
   token: string | null
   userInfo: UserInfoType
+  remainTime: number
+  issueToken: string
   loading: boolean
 }
 
@@ -21,6 +23,8 @@ export const useAuth = defineStore('auth', {
         profileImage: '',
         lastConnectedAt: null
       },
+      remainTime: 0,
+      issueToken: '',
       loading: false
     }
   },
@@ -63,6 +67,18 @@ export const useAuth = defineStore('auth', {
       } catch (e: any) {
         console.error(e.response)
         return e.response
+      }
+    },
+    async requestAuthCode(email: string): Promise<IssueAuthCode | string> {
+      try {
+        const response = await UserService.issueAuthCode(email)
+        console.log(response)
+        this.remainTime = response.data.remainMillisecond
+        this.issueToken = response.data.issueToken
+        return response.data
+      } catch (e: any) {
+        console.error(e.response)
+        return e.response.data.error.message
       }
     }
   }
