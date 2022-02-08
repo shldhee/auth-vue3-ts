@@ -4,6 +4,7 @@
       {{ name }}
     </label>
     <input
+      v-bind="$attrs"
       class="input-wrapper__input"
       :type="type"
       :value="modelValue"
