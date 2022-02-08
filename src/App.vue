@@ -5,7 +5,7 @@
     <router-link to="/user">user</router-link>
     <router-link to="/reset-password">reset-password</router-link>
   </div>
-  <router-view />
+  <router-view class="content" />
 </template>
 
 <style lang="scss" scoped>
@@ -20,5 +20,11 @@
       color: #42b983;
     }
   }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>

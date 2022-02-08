@@ -43,17 +43,26 @@ const handleInput = (e: Event) => {
 .input-wrapper {
   box-sizing: border-box;
   width: 100%;
+  text-align: left;
   max-width: 480px;
   &__label {
+    display: block;
+    margin-bottom: 6px;
+    text-transform: capitalize;
+    text-align: left;
+    color: #000000;
   }
   &__input {
+    box-sizing: border-box;
     display: block;
     font-size: 14px;
     outline: none;
     padding: 4px 8px;
-    border: 1px solid #ababab;
-    border-radius: 4px;
-    color: #ababab;
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    transition: all 0.3s;
+    color: #000000;
     width: 100%;
     height: 100%;
   }
