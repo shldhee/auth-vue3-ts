@@ -21,6 +21,9 @@ onMounted(() => {
     remainTimeData.value--
     if (remainTimeData.value > 0) {
       setTimeout(repeat, 1000)
+    } else {
+      alert('시간이 초과되었습니다. 다시 시도해주세요.')
+      location.reload()
     }
   }
   repeat()

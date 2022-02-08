@@ -48,13 +48,13 @@ async function handleSubmit(e: Event) {
 <style scoped lang="scss">
 .signin {
   &__title {
+    margin-bottom: 16px;
     font-size: 18px;
   }
   &__form {
     box-sizing: border-box;
-    padding: 18px;
     width: 100%;
-    max-width: 720px;
+    max-width: 480px;
   }
   &__box {
     margin-bottom: 20px;

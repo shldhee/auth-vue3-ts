@@ -90,6 +90,8 @@ export const useAuth = defineStore('auth', {
         this.resetEmail = email
         this.remainTime = response.data.remainMillisecond
         this.issueToken = response.data.issueToken
+        this.token = null
+        TokenService.remove()
         return response.data
       } catch (e: any) {
         console.error(e.response)
