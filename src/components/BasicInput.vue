@@ -44,8 +44,8 @@ const handleInput = (e: Event) => {
   box-sizing: border-box;
   width: 100%;
   text-align: left;
-  max-width: 480px;
   &__label {
+    font-size: 12px;
     display: block;
     margin-bottom: 6px;
     text-transform: capitalize;
