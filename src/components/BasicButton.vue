@@ -20,8 +20,9 @@ const { type } = toRefs(props)
 
 <style scoped lang="scss">
 .button {
+  min-width: 100px;
   color: #ffffff;
-  background-color: #ff5160;
+  background-color: #1890ff;
   border: 0;
   border-radius: 4px;
   padding: 8px 16px;

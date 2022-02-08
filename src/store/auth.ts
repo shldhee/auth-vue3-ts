@@ -52,9 +52,6 @@ export const useAuth = defineStore('auth', {
         return e.response
       }
     },
-    // login
-    // set token
-    // set localstorage
     async fetchUserInfo() {
       try {
         const repsonse = await UserService.getUserInfo(this.token!)
@@ -68,10 +65,15 @@ export const useAuth = defineStore('auth', {
     },
     async logout(): Promise<AxiosResponse | boolean> {
       try {
-        const response = await UserService.logout(this.token!)
+        await UserService.logout(this.token!)
         this.token = null
+        this.userInfo = {
+          name: '',
+          email: '',
+          profileImage: '',
+          lastConnectedAt: null
+        }
         TokenService.remove()
-        console.log('logout response', response)
         return true
       } catch (e: any) {
         console.error(e.response)
@@ -84,6 +86,8 @@ export const useAuth = defineStore('auth', {
         this.resetEmail = email
         this.remainTime = response.data.remainMillisecond
         this.issueToken = response.data.issueToken
+        this.token = null
+        TokenService.remove()
         return response.data
       } catch (e: any) {
         console.error(e.response)
@@ -98,6 +102,7 @@ export const useAuth = defineStore('auth', {
           issueToken: this.issueToken
         })
         this.confirmToken = response.data.confirmToken
+        this.remainTime = 0
         return 'success'
       } catch (e: any) {
         console.error(e.response)
@@ -115,10 +120,15 @@ export const useAuth = defineStore('auth', {
           newPassword,
           newPasswordConfirm
         })
+
         return 'success'
       } catch (e: any) {
         console.error(e.response)
         return e.response.data.error.message
+      } finally {
+        this.resetEmail = ''
+        this.issueToken = ''
+        this.confirmToken = ''
       }
     }
   }

@@ -1,10 +1,18 @@
 <template>
-  <div>
-    <h1>Home</h1>
-    <p>This is the Home component.</p>
+  <div class="home">
+    <h1 class="home__title">Home</h1>
+    <p class="home__paragraph">위에 메뉴를 클릭해주세요</p>
   </div>
 </template>
 
 <script setup lang="ts"></script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.home {
+  &__title {
+    margin-bottom: 10px;
+  }
+  &__paragraph {
+  }
+}
+</style>

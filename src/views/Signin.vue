@@ -1,14 +1,18 @@
 <template>
   <div class="signin">
-    <h1>signin</h1>
+    <h1 class="signin__title">로그인</h1>
     <form class="signin__form">
-      <BasicInput v-model="email" name="email" />
-      <BasicInput v-model="password" name="password" type="password" />
+      <div class="signin__box">
+        <BasicInput v-model="email" name="email" />
+      </div>
+      <div class="signin__box">
+        <BasicInput v-model="password" name="password" type="password" />
+      </div>
       <BasicButton type="submit" @click="handleSubmit">로그인</BasicButton>
-      <router-link to="/reset-password">
+      <router-link class="signin__link" to="/reset-password">
         <BasicButton>비밀번호 재설정</BasicButton>
       </router-link>
-      <p>{{ errorMessage }}</p>
+      <p class="signin__error-message">{{ errorMessage }}</p>
     </form>
   </div>
 </template>
@@ -41,4 +45,27 @@ async function handleSubmit(e: Event) {
 }
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.signin {
+  &__title {
+    margin-bottom: 16px;
+    font-size: 18px;
+  }
+  &__form {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 480px;
+  }
+  &__box {
+    margin-bottom: 20px;
+  }
+  &__link {
+    margin-left: 20px;
+  }
+  &__error-message {
+    color: #e74c3c;
+    font-size: 12px;
+    margin-top: 10px;
+  }
+}
+</style>
