@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { ButtonHTMLAttributes } from 'vue'
+import { ButtonHTMLAttributes, toRefs } from 'vue'
 
 interface Props {
   type?: ButtonHTMLAttributes['type']
@@ -14,6 +14,8 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   type: 'button'
 })
+
+const { type } = toRefs(props)
 </script>
 
 <style scoped lang="scss">

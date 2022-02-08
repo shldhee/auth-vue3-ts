@@ -15,6 +15,7 @@
 </template>
 
 <script setup lang="ts">
+import { toRefs } from 'vue'
 interface Props {
   name: string
   type?: string
@@ -24,6 +25,8 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   type: 'text'
 })
+
+const { type } = toRefs(props)
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
