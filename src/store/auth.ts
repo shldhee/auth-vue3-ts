@@ -47,6 +47,7 @@ export const useAuth = defineStore('auth', {
         this.token = response
         TokenService.set(this.token)
         return response
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
         console.error(e.response)
         return e.response
@@ -58,6 +59,7 @@ export const useAuth = defineStore('auth', {
         const { name, email, profileImage, lastConnectedAt } = repsonse
         this.userInfo = { name, email, profileImage, lastConnectedAt }
         return true
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
         console.error(e.response)
         return e.response
@@ -75,6 +77,7 @@ export const useAuth = defineStore('auth', {
         }
         TokenService.remove()
         return true
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
         console.error(e.response)
         return e.response
@@ -89,6 +92,7 @@ export const useAuth = defineStore('auth', {
         this.token = null
         TokenService.remove()
         return response.data
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
         console.error(e.response)
         return e.response.data.error.message
@@ -104,6 +108,7 @@ export const useAuth = defineStore('auth', {
         this.confirmToken = response.data.confirmToken
         this.remainTime = 0
         return 'success'
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
         console.error(e.response)
         return e.response.data.error.message
@@ -122,6 +127,7 @@ export const useAuth = defineStore('auth', {
         })
 
         return 'success'
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
         console.error(e.response)
         return e.response.data.error.message
