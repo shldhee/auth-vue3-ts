@@ -56,7 +56,14 @@ export const useAuth = defineStore('auth', {
       try {
         const repsonse = await UserService.getUserInfo(this.token!)
         const { name, email, profileImage, lastConnectedAt } = repsonse
-        this.userInfo = { name, email, profileImage, lastConnectedAt }
+        this.$patch({
+          userInfo: {
+            name,
+            email,
+            profileImage,
+            lastConnectedAt
+          }
+        })
         return 'success'
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
@@ -67,13 +74,15 @@ export const useAuth = defineStore('auth', {
     async logout(): Promise<string> {
       try {
         await UserService.logout(this.token!)
-        this.token = null
-        this.userInfo = {
-          name: '',
-          email: '',
-          profileImage: '',
-          lastConnectedAt: null
-        }
+        this.$patch({
+          token: null,
+          userInfo: {
+            name: '',
+            email: '',
+            profileImage: '',
+            lastConnectedAt: null
+          }
+        })
         TokenService.remove()
         return 'success'
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -85,10 +94,12 @@ export const useAuth = defineStore('auth', {
     async requestAuthCode(email: string): Promise<string> {
       try {
         const response = await UserService.issueAuthCode(email)
-        this.resetEmail = email
-        this.remainTime = response.remainMillisecond
-        this.issueToken = response.issueToken
-        this.token = null
+        this.$patch({
+          resetEmail: email,
+          remainTime: response.remainMillisecond,
+          issueToken: response.issueToken,
+          token: null
+        })
         TokenService.remove()
         return 'success'
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -104,8 +115,10 @@ export const useAuth = defineStore('auth', {
           authCode,
           issueToken: this.issueToken
         })
-        this.confirmToken = response.confirmToken
-        this.remainTime = 0
+        this.$patch({
+          confirmToken: response.confirmToken,
+          remainTime: 0
+        })
         return 'success'
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
@@ -124,9 +137,11 @@ export const useAuth = defineStore('auth', {
           newPassword,
           newPasswordConfirm
         })
-        this.resetEmail = ''
-        this.issueToken = ''
-        this.confirmToken = ''
+        this.$patch({
+          resetEmail: '',
+          issueToken: '',
+          confirmToken: ''
+        })
         return 'success'
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
