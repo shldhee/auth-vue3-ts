@@ -43,7 +43,7 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from) => {
+router.beforeEach((to) => {
   const auth = useAuth()
   if (auth.token && to.name === 'Signin') {
     return {
