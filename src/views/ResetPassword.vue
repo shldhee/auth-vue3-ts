@@ -74,6 +74,7 @@ async function handleRequestAuthCode(e: Event) {
   const result = await auth.requestAuthCode(email.value)
   if (typeof result === 'object') {
     status.value = 'issued'
+    errorMessage.value = ''
   } else {
     errorMessage.value = result
   }
@@ -84,6 +85,7 @@ async function handleVerifyAuthCode(e: Event) {
   const result = await auth.verifyAuthCode(authCode.value)
   if (result === 'success') {
     status.value = 'verified'
+    errorMessage.value = ''
   } else {
     errorMessage.value = result
   }
