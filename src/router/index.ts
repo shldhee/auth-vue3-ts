@@ -30,7 +30,7 @@ const routes: Array<RouteRecordRaw> = [
     beforeEnter: async (to, from, next) => {
       const auth = useAuth()
       const result = await auth.fetchUserInfo()
-      if (typeof result !== 'boolean') {
+      if (result !== 'success') {
         next({ name: 'Signin' })
       }
       next()

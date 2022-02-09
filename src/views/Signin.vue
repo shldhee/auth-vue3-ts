@@ -35,12 +35,12 @@ async function handleSubmit(e: Event) {
     password: password.value!
   })
 
-  if (typeof result === 'string') {
+  if (result === 'success') {
     // 로그인 성공
     router.push('/user')
   } else {
     // 로그인 실패
-    errorMessage.value = result.data.error.message
+    errorMessage.value = result
   }
 }
 </script>
