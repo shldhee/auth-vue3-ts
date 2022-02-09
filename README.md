@@ -6,8 +6,10 @@
 - npm version : v6.14.13
 
 ```
-npm install
-npm run serve
+
+$ npm ci or $ npm install
+
+$ npm run serve
 ```
 
 ## 주 사용 라이브러리와 사용 의도
