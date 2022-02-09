@@ -1,9 +1,8 @@
 import { defineStore } from 'pinia'
 import UserService from '@/services/UserService'
-import { IssueAuthCode, LoginRequestType, UserInfoType } from '@/types'
+import { LoginRequestType, UserInfoType } from '@/types'
 import TokenService from '@/services/TokenService'
 import { AxiosResponse } from 'axios'
-
 interface AuthState {
   token: string | null
   userInfo: UserInfoType
@@ -38,7 +37,7 @@ export const useAuth = defineStore('auth', {
     }
   },
   actions: {
-    async login({ email, password }: LoginRequestType) {
+    async login({ email, password }: LoginRequestType): Promise<string> {
       try {
         const response = await UserService.login({
           email,
@@ -46,26 +45,26 @@ export const useAuth = defineStore('auth', {
         })
         this.token = response
         TokenService.set(this.token)
-        return response
+        return 'success'
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
         console.error(e.response)
-        return e.response
+        return e.response.data.error.message
       }
     },
-    async fetchUserInfo() {
+    async fetchUserInfo(): Promise<string> {
       try {
         const repsonse = await UserService.getUserInfo(this.token!)
         const { name, email, profileImage, lastConnectedAt } = repsonse
         this.userInfo = { name, email, profileImage, lastConnectedAt }
-        return true
+        return 'success'
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
         console.error(e.response)
-        return e.response
+        return e.response.data.error.message
       }
     },
-    async logout(): Promise<AxiosResponse | boolean> {
+    async logout(): Promise<string> {
       try {
         await UserService.logout(this.token!)
         this.token = null
@@ -76,22 +75,22 @@ export const useAuth = defineStore('auth', {
           lastConnectedAt: null
         }
         TokenService.remove()
-        return true
+        return 'success'
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
         console.error(e.response)
-        return e.response
+        return e.response.data.error.message
       }
     },
-    async requestAuthCode(email: string): Promise<IssueAuthCode | string> {
+    async requestAuthCode(email: string): Promise<string> {
       try {
         const response = await UserService.issueAuthCode(email)
         this.resetEmail = email
-        this.remainTime = response.data.remainMillisecond
-        this.issueToken = response.data.issueToken
+        this.remainTime = response.remainMillisecond
+        this.issueToken = response.issueToken
         this.token = null
         TokenService.remove()
-        return response.data
+        return 'success'
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
         console.error(e.response)
@@ -105,7 +104,7 @@ export const useAuth = defineStore('auth', {
           authCode,
           issueToken: this.issueToken
         })
-        this.confirmToken = response.data.confirmToken
+        this.confirmToken = response.confirmToken
         this.remainTime = 0
         return 'success'
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -125,16 +124,14 @@ export const useAuth = defineStore('auth', {
           newPassword,
           newPasswordConfirm
         })
-
+        this.resetEmail = ''
+        this.issueToken = ''
+        this.confirmToken = ''
         return 'success'
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
         console.error(e.response)
         return e.response.data.error.message
-      } finally {
-        this.resetEmail = ''
-        this.issueToken = ''
-        this.confirmToken = ''
       }
     }
   }

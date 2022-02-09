@@ -1,5 +1,5 @@
-import { LoginRequestType, UserInfoType } from '@/types'
-import axios, { AxiosResponse } from 'axios'
+import { IssueAuthCode, LoginRequestType, UserInfoType } from '@/types'
+import axios from 'axios'
 
 const BASE_URL = 'https://ably-frontend-assignment-server.vercel.app/api'
 
@@ -13,6 +13,16 @@ interface ChangePasswordRequest {
   confirmToken: string
   newPassword: string
   newPasswordConfirm: string
+}
+
+interface LogoutResponse {
+  lastConnectedAt: Date | null
+}
+interface ConfirmAuthCode {
+  confirmToken: string
+}
+interface ChangePasswordRes {
+  email: string
 }
 
 export default class UserService {
@@ -33,7 +43,7 @@ export default class UserService {
 
     return response.data
   }
-  public static async logout(token: string): Promise<AxiosResponse> {
+  public static async logout(token: string): Promise<LogoutResponse> {
     const response = await axios.post(
       `${BASE_URL}/logout`,
       {},
@@ -47,7 +57,7 @@ export default class UserService {
 
     return response.data
   }
-  public static async issueAuthCode(email: string): Promise<AxiosResponse> {
+  public static async issueAuthCode(email: string): Promise<IssueAuthCode> {
     const response = await axios.get(
       `${BASE_URL}/reset-password?email=${email}`,
       {
@@ -57,13 +67,13 @@ export default class UserService {
       }
     )
 
-    return response
+    return response.data
   }
   public static async confirmAuthCode({
     email,
     authCode,
     issueToken
-  }: VerifiedAuthCodeRequest): Promise<AxiosResponse> {
+  }: VerifiedAuthCodeRequest): Promise<ConfirmAuthCode> {
     const response = await axios.post(
       `${BASE_URL}/reset-password`,
       {
@@ -78,14 +88,14 @@ export default class UserService {
       }
     )
 
-    return response
+    return response.data
   }
   public static async changePassword({
     email,
     confirmToken,
     newPassword,
     newPasswordConfirm
-  }: ChangePasswordRequest): Promise<AxiosResponse> {
+  }: ChangePasswordRequest): Promise<ChangePasswordRes> {
     const response = await axios.patch(
       `${BASE_URL}/reset-password`,
       {
@@ -101,6 +111,6 @@ export default class UserService {
       }
     )
 
-    return response
+    return response.data
   }
 }

@@ -72,7 +72,7 @@ const status = ref<Status>('init')
 async function handleRequestAuthCode(e: Event) {
   e.preventDefault()
   const result = await auth.requestAuthCode(email.value)
-  if (typeof result === 'object') {
+  if (result === 'success') {
     status.value = 'issued'
     errorMessage.value = ''
   } else {
