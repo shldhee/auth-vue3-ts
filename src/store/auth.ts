@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import UserService from '@/services/UserService'
 import { LoginRequestType, UserInfoType } from '@/types'
 import TokenService from '@/services/TokenService'
-import { AxiosResponse } from 'axios'
 interface AuthState {
   token: string | null
   userInfo: UserInfoType
